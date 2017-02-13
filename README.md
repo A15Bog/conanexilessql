@@ -1,6 +1,8 @@
 # conanexilessql
 SQLite DB Maintenance Script
 
+All the SQLite options for game.db are completely default. Funcom has not altered any of the database options for performance. This fixes that and removes bedrolls and campfires.
+
 1.) Download the game.db, sqlite3.exe, and CE_DB_Maintenance.bat into the same directory.
 
 2.) Run DB_Maintenance.bat.
