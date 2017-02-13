@@ -1,0 +1,6 @@
+@echo off
+for %%a in (game*.db) do (
+echo "%%a"
+sqlite3.exe %%a "PRAGMA synchronous = 0;delete from buildable_health where object_id in (select distinct object_id from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID'));delete from buildings where object_id in (select distinct object_id from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID'));delete from item_inventory where template_id in ('12001','10001');delete from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID');PRAGMA default_cache_size=700000;PRAGMA cache_size=700000;PRAGMA PAGE_SIZE = 4096;VACUUM;REINDEX;ANALYZE;pragma integrity_check"
+)
+pause
