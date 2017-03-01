@@ -15,7 +15,7 @@ select guildid from guilds where name = '-=A15=-';
 --DELETE ALL STRUCTURES FOR PLAYER OR GUILD BY REPLACING OWNER IDS
 delete from buildable_health where object_id in (select object_id from buildings where owner_id = '1071');
 delete from building_instances where object_id in (select object_id from buildings where owner_id = '1071');
-delete from properties where object_id in (select object_id from buildings where owner_id = '1071');
+delete from properties where object_id in (select object_id from buildings where owner_id = '1071') and name not like '%Spawn%';
 delete from buildings where owner_id = '1071';
 delete from item_inventory where owner_id = '1071';
 
