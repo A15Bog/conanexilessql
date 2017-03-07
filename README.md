@@ -23,4 +23,6 @@ To run these manually,
 
 7) Type .quit
 
-8) Reupload game.db
+8) Hit enter
+
+9) Reupload game.db
