@@ -1,4 +1,8 @@
-CREATED BY =A15=Bog. Last modified 3/7. Search the server browser for A15. We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics. US PVP.
+
+CREATED BY =A15=Bog. Last modified 3/7.
+Search the server browser for A15.
+We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
+US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
 
 --MAINTENANCE. RUN THIS AFTER USING ANYTHING BELOW.
 VACUUM;
