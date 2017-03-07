@@ -98,14 +98,6 @@ delete from guilds where guildid not in (select distinct guild from characters w
 delete from character_stats where id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
 delete from characters where id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
 
---DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER. NEEDS MORE TESTING BEFORE USE.
-delete from buildable_health where object_id in (select distinct object_id from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID'));
-delete from buildings where object_id in (select distinct object_id from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID'));
-delete from actor_position where id in (select distinct object_id from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID'));
-delete from item_inventory where template_id in ('12001','10001');
-delete from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID');
-
-
 --SCRIPTS THAT NEED TESTING BEFORE USE:
 --DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER
 delete from building_instances where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%');
