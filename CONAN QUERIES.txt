@@ -33,8 +33,14 @@ select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) a
 select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
 
 --EXPORT CSV OF ALL ITEMS A PLAYER OR GUILD OWNS. REPLACE 'GUILD_OR_PLAYERID' IN THE SCRIPT.
-select count(name) as cnt,name from properties where object_id in (select object_id from buildings where owner_id = 'GUILD_OR_PLAYERID') group by name order by cnt desc;
+.headers on
+.mode csv
+.once placed_buildings_items.csv
 select count(class) as cnt,class from building_instances where object_id in (select object_id from buildings where owner_id = 'GUILD_OR_PLAYERID') group by class order by cnt desc;
+.headers on
+.mode csv
+.once craftable_items.csv
+select count(name) as cnt,name from properties where object_id in (select object_id from buildings where owner_id = 'GUILD_OR_PLAYERID') group by name order by cnt desc;
 
 --UPDATE CHARACTER NAME
 update characters set char_name = 'Newname' where char_name = 'Oldname';
