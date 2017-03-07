@@ -1,5 +1,10 @@
---BOG DECAY SYSTEM V1.0
 
+CREATED BY =A15=Bog. Last modified 3/7.
+Search the server browser for A15.
+We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
+US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
+
+--BOG DECAY SYSTEM V1.0
 --PART 1: BOG_TIME TIMESTAMP ADDITION TO CHARACTER TABLE
 ALTER TABLE characters ADD COLUMN bog_time timestamp DEFAULT NULL /* replace me */;
 UPDATE characters SET bog_time = CURRENT_TIMESTAMP;
