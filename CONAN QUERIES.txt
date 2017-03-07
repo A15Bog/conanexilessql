@@ -8,16 +8,22 @@ ANALYZE;
 pragma integrity_check
 
 --FIND OWNER IDS
-select id from characters where char_name = 'Bog';
-select guildid from guilds where name = '-=A15=-';
+.headers on
+select guildid from guilds where name = 'GUILDNAME';
+select playerid from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
 
 
---DELETE ALL STRUCTURES FOR PLAYER OR GUILD BY REPLACING OWNER IDS
-delete from buildable_health where object_id in (select object_id from buildings where owner_id = '1071');
-delete from building_instances where object_id in (select object_id from buildings where owner_id = '1071');
-delete from properties where object_id in (select object_id from buildings where owner_id = '1071') and name not like '%Spawn%';
-delete from buildings where owner_id = '1071';
-delete from item_inventory where owner_id = '1071';
+--DELETE PLAYERS AND/OR GUILDS ALONG WITH EVERYTHING THEY OWN ON THE SERVER
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515'))) or object_id in (select distinct object_id from buildings where owner_id = '8584');
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515'))) or object_id in (select distinct object_id from buildings where owner_id = '8584');
+delete from properties where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515'))) or object_id in (select distinct object_id from buildings where owner_id = '8584');
+delete from actor_position where id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515'))) or id in (select distinct object_id from buildings where owner_id = '8584');
+delete from buildings where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515')) or owner_id = '8584';
+delete from item_properties where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515')) or owner_id = '8584';
+delete from item_inventory where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515')) or owner_id = '8584';
+delete from actor_position where id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515')) or id = '8584';
+delete from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515');
+delete from guilds where guildid = '8584';
 
 
 --EXPORT CSV OF ALL GUILDS, LEADERS, CHARACTERS, LEVEL, RANK
@@ -29,17 +35,6 @@ select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) a
 .mode csv
 .once soloplayers.csv
 select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
-	
-
---DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST
-delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from properties where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
-delete from actor_position where id not in (select object_id from buildings) and class like '%Placeables%';
-delete from item_properties where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds) and name like '%Learned%';
-delete from item_properties where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds) and name like '%CharacterUID%';
-
 
 --DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER
 delete from buildable_health where object_id in (select distinct object_id from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_PL_Bedroll_Fiber_C.SourceItemTemplateID','BasePlayerChar_C.BedRollID','BP_PL_Crafting_CampFire_C.HasHitGround','BP_PL_Crafting_CampFire_C.SourceItemTemplateID'));
@@ -51,7 +46,8 @@ delete from properties where name in ('BP_PL_Bedroll_Fiber_C.HasHitGround','BP_P
 --UPDATE CHARACTER NAME
 update characters set char_name = 'Newname' where char_name = 'Oldname';
 
---ADD CHARACTER MODIFY TIMESTAMP
+--BOG DECAY SYSTEM V1.0
+--PART 1: BOG_TIME TIMESTAMP ADDITION TO CHARACTER TABLE
 ALTER TABLE characters ADD COLUMN bog_time timestamp DEFAULT NULL /* replace me */;
 UPDATE characters SET bog_time = CURRENT_TIMESTAMP;
 PRAGMA writable_schema = on;
@@ -78,3 +74,26 @@ and id=old.id
 OR rank=new.rank
 and id=old.id;
 END;
+
+--PART 2: DELETE DECAYED PLAYERS, GUILDS, ITEMS, BUILDINGS BASED ON THE BOG_TIME COLUMN ADDITION. DELETES IT AFTER 3 DAYS AGO FROM CURRENT DB TIME. DOES NOT DELETE PLAYERS IN GUILDS THAT ARE ACTIVE EVEN IF LESS THAN THE 3 DAYS.
+--lines are alternating, first for players without guilds, then guilds themselves
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from properties where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from properties where object_id in (select distinct object_id from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from actor_position where id in (select distinct object_id from buildings where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from actor_position where id in (select distinct object_id from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '')));
+delete from buildings where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from item_properties where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from item_properties where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from item_inventory where owner_id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from item_inventory where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from actor_position where id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from actor_position where id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> '');
+delete from character_stats where id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+delete from characters where id in (select id from characters where bog_time < datetime('now','-3 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-3 days') and guild <> ''));
+
