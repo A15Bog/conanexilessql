@@ -15,6 +15,13 @@ pragma integrity_check
 select guildid from guilds where name = 'GUILDNAME';
 select playerid, id from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
 
+--DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER - NEW ON 3/8
+delete from buildable_health where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
+delete from building_instances where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
+delete from actor_position where id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
+delete from item_inventory where template_id in ('12001','10001');
+delete from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%');
+delete from properties where name like '%Bedroll%' or name like '%CampFire%';
 
 --DELETE PLAYERS AND/OR GUILDS ALONG WITH EVERYTHING THEY OWN ON THE SERVER
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515'))) or object_id in (select distinct object_id from buildings where owner_id = '8584');
@@ -53,14 +60,6 @@ select count(name) as cnt,name from properties where object_id in (select object
 update characters set char_name = 'Newname' where char_name = 'Oldname';
 
 --SCRIPTS THAT NEED TESTING BEFORE US IN PRODUCTION:
---DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER
-delete from building_instances where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%');
-delete from buildable_health where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%');
-delete from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%');
-delete from actor_position where id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%');
-delete from item_inventory where template_id in ('12001','10001');
-delete from properties where name like '%Bedroll%' or name like '%CampFire%';
-
 --DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
