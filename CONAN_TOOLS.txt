@@ -15,7 +15,7 @@ pragma integrity_check
 select guildid from guilds where name = 'GUILDNAME';
 select playerid, id from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
 
---DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER - NEW ON 3/8
+--DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER - VERIFIED IN PRODUCTION ON 3/8
 delete from buildable_health where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
 delete from building_instances where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
 delete from actor_position where id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
