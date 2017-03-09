@@ -60,11 +60,11 @@ select count(name) as cnt,name from properties where object_id in (select object
 update characters set char_name = 'Newname' where char_name = 'Oldname';
 
 --SCRIPTS THAT NEED TESTING BEFORE US IN PRODUCTION:
---DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST
+--DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST -- just completed coding and testing, will test in production on 3/9
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from properties where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
 delete from actor_position where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds))
-delete from item_properties where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds) and name like '%Learned%';
-delete from item_properties where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds) and name like '%CharacterUID%';
+delete from item_properties where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
