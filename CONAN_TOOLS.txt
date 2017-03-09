@@ -59,6 +59,21 @@ select count(name) as cnt,name from properties where object_id in (select object
 --UPDATE CHARACTER NAME
 update characters set char_name = 'Newname' where char_name = 'Oldname';
 
+--REMOVES ALL ITEMS AND BUILDINGS EXCEPT THOSE BELONGING TO A SINGLE PLAYER AND GUILD (USED FOR EVENTS)
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters where char_name = 'CHARACTERNAME') and owner_id not in (select guildid from guilds where name = 'GUILDNAME'));
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters where char_name = 'CHARACTERNAME') and owner_id not in (select guildid from guilds where name = 'GUILDNAME'));
+delete from properties where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters where char_name = 'CHARACTERNAME') and owner_id not in (select guildid from guilds where name = 'GUILDNAME'));
+delete from properties where object_id in (select id from characters where char_name <> 'CHARACTERNAME');
+delete from actor_position where id in (select distinct object_id from buildings where owner_id not in (select id from characters where char_name = 'CHARACTERNAME') and owner_id not in (select guildid from guilds where name = 'GUILDNAME'));
+delete from buildings where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters where char_name = 'CHARACTERNAME') and owner_id not in (select guildid from guilds where name = 'GUILDNAME'));
+delete from item_properties where owner_id in (select id from characters where char_name <> 'CHARACTERNAME') or owner_id in (select guildid from guilds where name <> 'GUILDNAME');
+delete from item_inventory where owner_id in (select id from characters where char_name <> 'CHARACTERNAME') or owner_id in (select guildid from guilds where name <> 'GUILDNAME');
+delete from actor_position where id in (select id from characters where char_name <> 'CHARACTERNAME') or id in (select guildid from guilds where name <> 'GUILDNAME');
+delete from character_stats where char_id in (select id from characters where char_name <> 'CHARACTERNAME');
+delete from characters where id in (select id from characters where char_name <> 'CHARACTERNAME');
+delete from guilds where guildid in (select guildid from guilds where name <> 'GUILDNAME');
+
+
 --SCRIPTS THAT NEED TESTING BEFORE US IN PRODUCTION:
 --DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST -- just completed coding and testing, will test in production on 3/9
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
