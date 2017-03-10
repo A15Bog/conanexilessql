@@ -35,6 +35,31 @@ AND stat_type = '0'
 AND stat_id = '3';
 END;
 
+--ADDS 9 EXTRA RECIPE POINTS PER LEVEL, GIVING YOU A TOTAL OF 695 AT THE END. TAKES CURRENT PLAYERS INTO ACCOUNT THAT MAY NOT BE 50 YET.
+UPDATE character_stats SET stat_value = '695.0' WHERE stat_type = '0' AND stat_id = '3' where stat_value = '284.0';
+CREATE TRIGGER character_bog_add_recipe_points_by_level
+AFTER UPDATE OF level
+ON characters
+FOR EACH ROW
+BEGIN
+UPDATE character_stats set stat_value = stat_value + 9
+WHERE stat_type = '0'
+AND stat_id = '3'
+AND new.id = char_id;
+END;
+CREATE TRIGGER character_bog_add_recipe_points_lvl_50
+AFTER UPDATE OF level
+ON characters
+FOR EACH ROW
+WHEN new.level > 49
+BEGIN
+UPDATE character_stats set stat_value = '695.0'
+WHERE new.id = char_id
+AND stat_id = '3'
+AND stat_type ='0';
+END;
+
+
 --FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
 update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
 
