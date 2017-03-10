@@ -10,6 +10,60 @@ REINDEX;
 ANALYZE;
 pragma integrity_check;
 
+--NEW AS OF 3/9: COMPLETED OLD OBJECTS DELETE, ADD POINTS TO RECIPES ON HITTING LEVEL 50, FIX PLAYERS IN GREY AREA OR CANNOT LOGIN, ALL TESTED IN PRODUCTION ON A15 SERVER.
+
+--DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST -- just completed coding and testing, will test in production on 3/9
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from properties where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from actor_position where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from item_properties where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from properties where object_id in (select distinct object_id from properties where name like '%Player%') and object_id not in (select id from characters) and object_id not in (select guildid from guilds);
+delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
+
+--ADDS 100 POINTS AVAILABLE TO RECIPES AFTER HITTING LEVEL 50. FIRST STATEMENT ALTERS EXISINGT LEVEL 50's.
+update character_stats set stat_value = '384.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
+CREATE TRIGGER character_stats_bog_add_recipe_points
+AFTER UPDATE OF stat_value
+ON character_stats
+FOR EACH ROW
+BEGIN
+UPDATE character_stats set stat_value = '384.0'
+WHERE stat_value = '284.0'
+AND stat_type = '0'
+AND stat_id = '3';
+END;
+
+--FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
+update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
+
+--DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from properties where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from actor_position where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from item_properties where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from properties where object_id in (select distinct object_id from properties where name like '%Player%') and object_id not in (select id from characters) and object_id not in (select guildid from guilds);
+delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
+delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
+
+--ADDS 100 POINTS AVAILABLE TO RECIPES AFTER HITTING LEVEL 50. FIRST STATEMENT ALTERS EXISINGT LEVEL 50's.
+update character_stats set stat_value = '384.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
+CREATE TRIGGER character_stats_bog_add_recipe_points
+AFTER UPDATE OF stat_value
+ON character_stats
+FOR EACH ROW
+BEGIN
+UPDATE character_stats set stat_value = '384.0'
+WHERE stat_value = '284.0'
+AND stat_type = '0'
+AND stat_id = '3';
+END;
+
+--FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
+update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
+
 --FIND OWNER IDS
 .headers on
 select guildid from guilds where name = 'GUILDNAME';
@@ -78,26 +132,3 @@ REINDEX;
 ANALYZE;
 pragma integrity_check;
 
---SCRIPTS THAT NEED TESTING BEFORE US IN PRODUCTION:
---DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST -- just completed coding and testing, will test in production on 3/9
-delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from properties where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from actor_position where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from item_properties where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from properties where object_id in (select distinct object_id from properties where name like '%Player%') and object_id not in (select id from characters) and object_id not in (select guildid from guilds);
-delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
-delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
-
---ADDS 100 POINTS AVAILABLE TO RECIPES AFTER HITTING LEVEL 50. FIRST STATEMENT ALTERS EXISINGT LEVEL 50's.
-update character_stats set stat_value = '384.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
-CREATE TRIGGER character_stats_bog_add_recipe_points
-AFTER UPDATE OF stat_value
-ON character_stats
-FOR EACH ROW
-BEGIN
-UPDATE character_stats set stat_value = '384.0'
-WHERE stat_value = '284.0'
-AND stat_type = '0'
-AND stat_id = '3';
-END;
