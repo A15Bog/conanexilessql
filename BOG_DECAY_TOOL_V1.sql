@@ -58,5 +58,5 @@ delete from item_inventory where owner_id in (select guildid from guilds where g
 delete from actor_position where id in (select id from characters where bog_time < datetime('now','-5 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-5 days') and guild <> ''));
 delete from actor_position where id in (select guildid from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-5 days') and guild <> ''));
 delete from guilds where guildid not in (select distinct guild from characters where bog_time >= datetime('now','-5 days') and guild <> '');
-delete from character_stats where id in (select id from characters where bog_time < datetime('now','-5 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-5 days') and guild <> ''));
+delete from character_stats where char_id in (select id from characters where bog_time < datetime('now','-5 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-5 days') and guild <> ''));
 delete from characters where id in (select id from characters where bog_time < datetime('now','-5 days') and guild not in (select distinct guild from characters where bog_time >= datetime('now','-5 days') and guild <> ''));
