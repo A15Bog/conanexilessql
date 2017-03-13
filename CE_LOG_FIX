@@ -1,0 +1,12 @@
+--THIS IS A FIX FOR LOGGING SO YOU DON'T GET SO MUCH JUNK. IT MAKES SURE ERRORS ARE LOGGED ALONG WITH NORMAL LOGGING OF IPs, CHAT, DEATHS
+--Replace the Core.Log section in BaseEngine.ini with this, or add to Engine.ini to make sure it persists:
+
+[Core.Log]
+global=error
+ChatWindow=log
+BattlEyeLogging=log
+Building=log
+ConanSandbox=log
+HeatmapMetrics=log
+Login=log
+LogNet=log
