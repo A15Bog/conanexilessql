@@ -15,6 +15,7 @@ SET sql = replace(sql, 'DEFAULT NULL /* replace me */',
 WHERE type = 'table'
   AND name = 'characters';
 PRAGMA writable_schema = off;
+DROP TRIGGER characters_bog_time_modify;
 CREATE TRIGGER characters_bog_time_modify
 AFTER UPDATE
 ON characters
