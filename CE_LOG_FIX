@@ -2,7 +2,7 @@
 --Replace the Core.Log section in BaseEngine.ini with this, or add to Engine.ini to make sure it persists:
 
 [Core.Log]
-global=error
+global=off
 ChatWindow=log
 BattlEyeLogging=log
 Building=log
