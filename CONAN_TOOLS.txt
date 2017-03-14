@@ -60,19 +60,6 @@ END;
 --FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
 update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
 
---ADDS 100 POINTS AVAILABLE TO RECIPES AFTER HITTING LEVEL 50. FIRST STATEMENT ALTERS EXISINGT LEVEL 50's.
-update character_stats set stat_value = '384.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
-CREATE TRIGGER character_stats_bog_add_recipe_points
-AFTER UPDATE OF stat_value
-ON character_stats
-FOR EACH ROW
-BEGIN
-UPDATE character_stats set stat_value = '384.0'
-WHERE stat_value = '284.0'
-AND stat_type = '0'
-AND stat_id = '3';
-END;
-
 --FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
 update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
 
@@ -112,6 +99,16 @@ select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) a
 .mode csv
 .once soloplayers.csv
 select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
+
+--ONLY WORKS IF YOU HAVE THE BOG_TIME TIMESTAMP, SAME REPORT AS ABOVE BUT WITH THE LASTACTIVITY COLUMN
+.headers on
+.mode csv
+.once guildplayers.csv
+select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) as NAME, case c.rank WHEN '2' then 'Leader' WHEN '1' then 'Officer' WHEN '0' then 'Peon' ELSE c.rank END RANK, c.level as LEVEL, quote(c.playerid) as STEAMid, quote(c.id) as DBid, c.bog_time as LASTACTIVE from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name;
+.headers on
+.mode csv
+.once soloplayers.csv
+select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid, bog_time as LASTACTIVE  from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
 
 --EXPORT CSV OF ALL ITEMS A PLAYER OR GUILD OWNS. REPLACE 'GUILD_OR_PLAYERID' IN THE SCRIPT.
 .headers on
