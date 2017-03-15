@@ -10,6 +10,11 @@ REINDEX;
 ANALYZE;
 pragma integrity_check;
 
+--FIND OWNER IDS
+.headers on
+select guildid from guilds where name = 'GUILDNAME';
+select playerid, id from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
+
 --EXPORT REPORT TO FIND ALL SINGLE FOUNDATION SPAM (just run the query from 'select' onward if using an editor that doesnt support the . commands)
 .mode csv
 .once single_foundation_spam.csv
@@ -63,11 +68,6 @@ update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' wh
 --FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
 update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
 
---FIND OWNER IDS
-.headers on
-select guildid from guilds where name = 'GUILDNAME';
-select playerid, id from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
-
 --DELETE ALL BEDROLLS AND CAMPFIRES FROM SERVER - VERIFIED IN PRODUCTION ON 3/8
 delete from buildable_health where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
 delete from building_instances where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
@@ -90,25 +90,15 @@ delete from character_stats where char_id in (select id from characters where pl
 delete from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515');
 delete from guilds where guildid = '8584';
 
---EXPORT CSV OF ALL GUILDS, LEADERS, CHARACTERS, LEVEL, RANK
+--EXPORT CSV OF ALL GUILDS, LEADERS, CHARACTERS, LEVEL, RANK, LAST TIME ONLINE DATE
 .headers on
 .mode csv
 .once guildplayers.csv
-select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) as NAME, case c.rank WHEN '2' then 'Leader' WHEN '1' then 'Officer' WHEN '0' then 'Peon' ELSE c.rank END RANK, c.level as LEVEL, quote(c.playerid) as STEAMid, quote(c.id) as DBid from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name;
+select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) as NAME, case c.rank WHEN '2' then 'Leader' WHEN '1' then 'Officer' WHEN '0' then 'Peon' ELSE c.rank END RANK, c.level as LEVEL, quote(c.playerid) as STEAMid, quote(c.id) as DBid, datetime(c.lastTimeOnline, 'unixepoch') as LASTONLINE from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name;
 .headers on
 .mode csv
 .once soloplayers.csv
-select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
-
---ONLY WORKS IF YOU HAVE THE BOG_TIME TIMESTAMP, SAME REPORT AS ABOVE BUT WITH THE LASTACTIVITY COLUMN
-.headers on
-.mode csv
-.once guildplayers.csv
-select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) as NAME, case c.rank WHEN '2' then 'Leader' WHEN '1' then 'Officer' WHEN '0' then 'Peon' ELSE c.rank END RANK, c.level as LEVEL, quote(c.playerid) as STEAMid, quote(c.id) as DBid, c.bog_time as LASTACTIVE from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name;
-.headers on
-.mode csv
-.once soloplayers.csv
-select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid, bog_time as LASTACTIVE  from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
+select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid, datetime(c.lastTimeOnline, 'unixepoch') as LASTONLINE from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
 
 --EXPORT CSV OF ALL ITEMS A PLAYER OR GUILD OWNS. REPLACE 'GUILD_OR_PLAYERID' IN THE SCRIPT.
 .headers on
@@ -141,27 +131,3 @@ REINDEX;
 ANALYZE;
 pragma integrity_check;
 
---NOT READY FOR PRODUCTION
---ADDS 9 EXTRA RECIPE POINTS PER LEVEL, GIVING YOU A TOTAL OF 695 AT THE END. TAKES CURRENT PLAYERS INTO ACCOUNT THAT MAY NOT BE 50 YET.
-UPDATE character_stats SET stat_value = '695.0' WHERE stat_type = '0' AND stat_id = '3' where stat_value = '284.0';
-CREATE TRIGGER character_bog_add_recipe_points_by_level
-AFTER UPDATE OF level
-ON characters
-FOR EACH ROW
-BEGIN
-UPDATE character_stats set stat_value = stat_value + 9
-WHERE stat_type = '0'
-AND stat_id = '3'
-AND new.id = char_id;
-END;
-CREATE TRIGGER character_bog_add_recipe_points_lvl_50
-AFTER UPDATE OF level
-ON characters
-FOR EACH ROW
-WHEN new.level > 49
-BEGIN
-UPDATE character_stats set stat_value = '695.0'
-WHERE new.id = char_id
-AND stat_id = '3'
-AND stat_type ='0';
-END;
