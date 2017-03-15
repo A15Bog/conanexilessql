@@ -3,18 +3,20 @@ Search the server browser for A15.
 We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
 US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
 
-CURRENT PRODUCTION SCRIPTS AS OF 3/10:
+CURRENT PRODUCTION SCRIPTS AS OF 3/15:
 * DB Maintenance (shrink, reindex, analyze for best query path, integrity check)
+* Add recipe points to level 50 players - HOT!
+* Merge clans together - NEW
+* Find all single or double foundation spam with location (actually works) - NEW
+* Export excel list of all players, guilds, levels, steamids - NOW INCLUDES ACTIVITY DATE
 * Delete no ownership objects
 * Delete all buildings, placeables, items, players and guilds for defined ids
-* Add recipe points to level 50 players
 * Fix for players stuck out of bounds in the Upside Down
 * Delete all campfires and bedrolls from the server (one time wipe)
-* Export excel list of all players, guilds, levels, steamids
 * Export excel list of all player owned placeables and buildings
 * Change character names
-* Activity timestamp
-* Decay tool based on activity timestamp
+* Activity timestamp (will be phased out soon due to game implemented timestamp)
+* Decay tool based on activity timestamp (will be updated to use game implmented timestamp)
 
 
 
