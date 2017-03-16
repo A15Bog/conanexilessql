@@ -98,7 +98,7 @@ select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) a
 .headers on
 .mode csv
 .once soloplayers.csv
-select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid, datetime(c.lastTimeOnline, 'unixepoch') as LASTONLINE from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
+select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid, datetime(lastTimeOnline, 'unixepoch') as LASTONLINE from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
 
 --EXPORT CSV OF ALL ITEMS A PLAYER OR GUILD OWNS. REPLACE 'GUILD_OR_PLAYERID' IN THE SCRIPT.
 .headers on
