@@ -16,11 +16,13 @@ select guildid from guilds where name = 'GUILDNAME';
 select playerid, id from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
 
 --EXPORT REPORT TO FIND ALL SINGLE FOUNDATION SPAM (just run the query from 'select' onward if using an editor that doesnt support the . commands)
+.headers on
 .mode csv
 .once single_foundation_spam.csv
 select ap.id, c.char_name, c.playerid, c.id, g.name, g.guildid, 'TeleportPlayer ' || ap.x || ' ' || ap.y || ' ' || ap.z from actor_position as ap inner join buildings as b on ap.id = b.object_id left outer join characters as c on c.id = b.owner_id left outer join guilds as g on g.guildid = b.owner_id inner join building_instances as bi on bi.object_id = b.object_id where bi.instance_id = '0' and bi.object_id not in (select object_id from building_instances where instance_id = '1') and ap.class like '%found%';
 
 --EXPORT REPORT FIND ALL DOUBLE FOUNDATION SPAM (just run the query from 'select' onward if using an editor that doesnt support the . commands)
+.headers on
 .mode csv
 .once double_foundation_spam.csv
 select ap.id, c.char_name, c.playerid, c.id, g.name, g.guildid, 'TeleportPlayer ' || ap.x || ' ' || ap.y || ' ' || ap.z from actor_position as ap inner join buildings as b on ap.id = b.object_id left outer join characters as c on c.id = b.owner_id left outer join guilds as g on g.guildid = b.owner_id inner join building_instances as bi on bi.object_id = b.object_id where bi.instance_id = '1' and bi.object_id not in (select object_id from building_instances where instance_id = '2') and ap.class like '%found%';
@@ -61,9 +63,6 @@ WHERE stat_value = '284.0'
 AND stat_type = '0'
 AND stat_id = '3';
 END;
-
---FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
-update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
 
 --FIX PLAYERS THAT ARE STUCK IN THE UPSIDE DOWN OR CANNOT LOGIN
 update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0';
