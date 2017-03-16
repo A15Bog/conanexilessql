@@ -1,6 +1,8 @@
 --Decay Query Based on timestamp already in the game
 --NOT TESTED IN PROD YET
 --DELETE ALL PLAYERS NOT LOGGED IN WITHIN 7 DAYS (EXCEPT FOR THE PLAYERS WHO HAVE NOT LOGGED
+--FIRST QUERY UPDATES NULL VALUES IN THE TIMESTAMP TO 3/14 DATE WHEN THE PATCH WAS RELEASED THAT STARTED TRACKING IT SO THAT THE DECAY WORKS
+update characters set lastTimeOnline = '1489470357' where lastTimeOnline is NULL;
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where datetime(lastTimeOnline, 'unixepoch') < datetime('now','-7 days') and owner_id not in (select distinct guild from characters where datetime(lastTimeOnline, 'unixepoch') > datetime('now','-7 days') and guild is not null)));
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where datetime(lastTimeOnline, 'unixepoch') > datetime('now','-7 days') and guild is not null)));
 delete from building_instances where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where datetime(lastTimeOnline, 'unixepoch') < datetime('now','-7 days') and owner_id not in (select distinct guild from characters where datetime(lastTimeOnline, 'unixepoch') > datetime('now','-7 days') and guild is not null)));
