@@ -5,8 +5,8 @@ US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racis
 
 CURRENT PRODUCTION SCRIPTS AS OF 3/18:
 * Add recipe points to level 50 players - HOT!
+* Find buildings past the maximum directional values of the green wall - NEW
 * Merge clans together - NEW
-* Find buildings past the maximum directional values of the green wall
 * Find all single or double foundation spam with location (actually works) - NEW
 * Export excel list of all players, guilds, levels, steamids - NOW INCLUDES ACTIVITY DATE
 * Delete no ownership objects
