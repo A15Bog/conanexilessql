@@ -3,10 +3,10 @@ Search the server browser for A15.
 We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
 US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
 
-CURRENT PRODUCTION SCRIPTS AS OF 3/15:
-* DB Maintenance (shrink, reindex, analyze for best query path, integrity check)
+CURRENT PRODUCTION SCRIPTS AS OF 3/18:
 * Add recipe points to level 50 players - HOT!
 * Merge clans together - NEW
+* Find buildings past the maximum directional values of the green wall
 * Find all single or double foundation spam with location (actually works) - NEW
 * Export excel list of all players, guilds, levels, steamids - NOW INCLUDES ACTIVITY DATE
 * Delete no ownership objects
@@ -17,10 +17,11 @@ CURRENT PRODUCTION SCRIPTS AS OF 3/15:
 * Change character names
 * Activity timestamp (will be phased out soon due to game implemented timestamp)
 * Decay tool based on activity timestamp (will be updated to use game implmented timestamp)
+* DB Maintenance (shrink, reindex, analyze for best query path, integrity check)
 
 
-
-
+* UPDATE on 3/18 - added script to find buildings past the furthest directional boundary of the green wall
+* UPDATE on 3/15 - Lots of script fixes, if you use decay tool you should be using the new version. If you used the old version please use the Fix for players unable to login or stuck in Exiled and everything will be ok.
 * UPDATE on 3/9 - Moved script to production for removing all no ownership objects from the server.
 * UPDATE on 3/9 - Added script to fix players or admins who may be stuck in the Upside Down (out of bounds of the map, may crash server).
 * UPDATE on 3/9 - Added in script to add recipe points to characters when they hit 50, working on one to add points per level.
