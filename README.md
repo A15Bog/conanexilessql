@@ -4,10 +4,11 @@ We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as o
 US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
 
 CURRENT PRODUCTION SCRIPTS AS OF 3/18:
-* Add recipe points to level 50 players - HOT!
 * Find buildings past the maximum directional values of the green wall - NEW
+* New decay script (V2) based on in game timestamp (alternative to in game decay, reqires no column additions or triggers anymore, deletes everything from user or guild after 7 days of inactivity) - NEW
 * Merge clans together - NEW
 * Find all single or double foundation spam with location (actually works) - NEW
+* Add recipe points to level 50 players - HOT!
 * Export excel list of all players, guilds, levels, steamids - NOW INCLUDES ACTIVITY DATE
 * Delete no ownership objects
 * Delete all buildings, placeables, items, players and guilds for defined ids
@@ -16,8 +17,11 @@ CURRENT PRODUCTION SCRIPTS AS OF 3/18:
 * Export excel list of all player owned placeables and buildings
 * Change character names
 * Activity timestamp (will be phased out soon due to game implemented timestamp)
-* Decay tool based on activity timestamp (will be updated to use game implmented timestamp)
 * DB Maintenance (shrink, reindex, analyze for best query path, integrity check)
+
+* Depreciated: DB Optimization for cache and memory (added to game in 3/14 patch)
+* Depreciated: Activity timestamp (functional in game as of 3/14 path)
+* Depreciated: Decay Tool V1 - leaving the script only for people who already added the timestamp, use V2 for use with in game timestamp
 
 
 * UPDATE on 3/18 - added script to find buildings past the furthest directional boundary of the green wall
