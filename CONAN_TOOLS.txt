@@ -56,16 +56,6 @@ delete from buildings where owner_id not in (select id from characters) and owne
 update character_stats set stat_value = '484.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
 update character_stats set stat_value = '484.0' where stat_value='384.0' and stat_type = '0' and stat_id = '3';
 DROP TRIGGER character_stats_bog_add_recipe_points;
-CREATE TRIGGER character_stats_bog_add_recipe_points
-AFTER UPDATE OF stat_value
-ON character_stats
-FOR EACH ROW
-BEGIN
-UPDATE character_stats set stat_value = '484.0'
-WHERE stat_value = '284.0'
-AND stat_type = '0'
-AND stat_id = '3';
-END;
 DROP TRIGGER CREATE TRIGGER character_stats_bog_add_recipe_points_ins;
 CREATE TRIGGER character_stats_bog_add_recipe_points_ins
 AFTER INSERT
