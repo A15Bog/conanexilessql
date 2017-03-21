@@ -54,7 +54,6 @@ delete from buildings where owner_id not in (select id from characters) and owne
 
 --ADDS 200 POINTS AVAILABLE TO RECIPES AFTER HITTING LEVEL 50. FIRST STATEMENT ALTERS EXISINGT LEVEL 50's.
 update character_stats set stat_value = '484.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
-update character_stats set stat_value = '484.0' where stat_value='384.0' and stat_type = '0' and stat_id = '3';
 DROP TRIGGER character_stats_bog_add_recipe_points;
 DROP TRIGGER CREATE TRIGGER character_stats_bog_add_recipe_points_ins;
 CREATE TRIGGER character_stats_bog_add_recipe_points_ins
