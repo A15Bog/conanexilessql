@@ -3,7 +3,7 @@ Search the server browser for A15.
 We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
 US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
 
-CURRENT PRODUCTION SCRIPTS AS OF 3/18:
+CURRENT PRODUCTION SCRIPTS AS OF 3/22: We are working on some awesome new things coming up.
 * Add recipe points to level 50 players - HOT! (Updated to be simpler. Please run if you have run previously for performance.) - UPDATE
 * Script to remove Bog Decay Tool V1 due to the game putting in its own timestamp. Bog Decay Tool V2 replaces the original decay tool without the need for an extra column or trigger, but the removal of the column and the trigger to update it is necessary for performance. - UPDATE
 * Bog Decay Tool V2 - can be run without any column or trigger additions due to the addition of a timestamp by the game devs! Fully customizable. - NEW
