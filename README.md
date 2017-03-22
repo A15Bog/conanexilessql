@@ -27,7 +27,7 @@ CURRENT PRODUCTION SCRIPTS AS OF 3/22: We are working on some awesome new things
 * Depreciated: Activity timestamp (functional in game as of 3/14 path)
 * Depreciated: Decay Tool V1 - leaving the script only for people who already added the timestamp, use V2 for use with in game timestamp
 
-
+* UPDATE on 3/22 - added new decay tool, new find id scripts, new wipe tool to leave characters but remove everything els, report to show number of buildings, updated add points tool, added script to remove bog decay tool v1
 * UPDATE on 3/18 - added script to find buildings past the furthest directional boundary of the green wall
 * UPDATE on 3/15 - Lots of script fixes, if you use decay tool you should be using the new version. If you used the old version please use the Fix for players unable to login or stuck in Exiled and everything will be ok.
 * UPDATE on 3/9 - Moved script to production for removing all no ownership objects from the server.
