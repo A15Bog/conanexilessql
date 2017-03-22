@@ -1,7 +1,10 @@
-CREATED BY =A15=Bog. Last modified 3/7.
-Search the server browser for A15.
-We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
+
+CREATED BY =A15=Bog. Last modified 3/22.
+The A15 server I run is #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as of 3/7.
 US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
+172.96.164.194:24023 (Steam Servers)
+172.96.164.194:24013 (Ingame)
+Or search for A15 in the server browser under internet filter
 
 CURRENT PRODUCTION SCRIPTS AS OF 3/22: We are working on some awesome new things coming up.
 * Add recipe points to level 50 players - HOT! (Updated to be simpler. Please run if you have run previously for performance.) - UPDATE
