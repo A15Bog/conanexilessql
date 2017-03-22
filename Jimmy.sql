@@ -7,7 +7,7 @@ delete from buildings where object_id in (select distinct object_id from propert
 delete from properties where name like '%Bedroll%' or name like '%CampFire%';
 update character_stats set stat_value = '484.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
 DROP TRIGGER character_stats_bog_add_recipe_points;
-DROP TRIGGER CREATE TRIGGER character_stats_bog_add_recipe_points_ins;
+DROP TRIGGER character_stats_bog_add_recipe_points_ins;
 CREATE TRIGGER character_stats_bog_add_recipe_points_ins
 AFTER INSERT
 ON character_stats
