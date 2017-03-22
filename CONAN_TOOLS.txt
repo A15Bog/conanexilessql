@@ -12,8 +12,13 @@ pragma integrity_check;
 
 --FIND OWNER IDS
 .headers on
-select guildid from guilds where name = 'GUILDNAME';
-select playerid, id from characters where char_name = 'PLAYERNAME' or guild = 'GUILD_ID';
+select c.char_name, c.playerid, c.id, g.name, g.guildid from characters as c left outer join guilds as g on c.guild = g.guildid where c.playerid = 'STEAM_ID' or c.id = 'CHAR_ID' or g.name = 'GUILD_NAME' or g.guildid = 'GUILD_ID' order by g.name
+
+--GET LIST OF HOW MANY BUILDINGS EACH OWNER HAS
+.headers on
+.mode csv
+.once buildings_per_owner.csv
+select count(b.owner_id) as cnt, b.owner_id, g.name, g.guildid, c.char_name, c.id, c.playerid from buildings as b left outer join characters as c on b.owner_id = c.id left outer join guilds as g on b.owner_id = g.guildid group by owner_id order by cnt desc;
 
 --EXPORT REPORT outofbounds.csv SHOWING ALL STRUCTURES BUILT OUT OF MAXIMUM DIRECTIONAL VALUES FOR THE GREEN WALL. THIS CAN FIND ANY STRUCTURES FUTHRER OUT THAN A TRIP AROUND THE OUTSIDE WILL FIND.
 CREATE TEMPORARY TABLE outofbounds AS
@@ -55,7 +60,7 @@ delete from buildings where owner_id not in (select id from characters) and owne
 --ADDS 200 POINTS AVAILABLE TO RECIPES AFTER HITTING LEVEL 50. FIRST STATEMENT ALTERS EXISINGT LEVEL 50's.
 update character_stats set stat_value = '484.0' where stat_value='284.0' and stat_type = '0' and stat_id = '3';
 DROP TRIGGER character_stats_bog_add_recipe_points;
-DROP TRIGGER CREATE TRIGGER character_stats_bog_add_recipe_points_ins;
+DROP TRIGGER character_stats_bog_add_recipe_points_ins;
 CREATE TRIGGER character_stats_bog_add_recipe_points_ins
 AFTER INSERT
 ON character_stats
