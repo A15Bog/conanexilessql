@@ -11,7 +11,8 @@ ANALYZE;
 pragma integrity_check;
 
 --FIND OWNER IDS (REPLACE ANY OF THE VALUES IN THIS SCRIPT TO SEE THE REST OF THEM)
-select c.char_name, c.playerid, c.id, g.name, g.guildid from characters as c left outer join guilds as g on c.guild = g.guildid where c.playerid = 'STEAM_ID' or c.id = 'CHAR_ID' or g.name = 'GUILD_NAME' or g.guildid = 'GUILD_ID' order by g.name, c.char_name;
+select c.char_name, c.playerid, c.id, g.name, g.guildid from characters as c left outer join guilds as g on c.guild = g.guildid where c.char_name = 'CHAR_NAME' or c.playerid = 'STEAM_ID' or c.id = 'CHAR_ID' or g.name = 'GUILD_NAME' or g.guildid = 'GUILD_ID' order by g.name, c.char_name;
+
 
 --GET LIST OF HOW MANY BUILDINGS EACH OWNER HAS
 .headers on
