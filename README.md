@@ -4,12 +4,16 @@ We are ranked #3 on topgameservers, #5 on gametracket, #11 on battlemetrics as o
 US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racism, unradable bases allowed, .4 claim radius, 0 admin abuse.
 
 CURRENT PRODUCTION SCRIPTS AS OF 3/18:
-* Find buildings past the maximum directional values of the green wall - NEW
-* New decay script (V2) based on in game timestamp (alternative to in game decay, reqires no column additions or triggers anymore, deletes everything from user or guild after 7 days of inactivity) - NEW
-* Merge clans together - NEW
-* Find all single or double foundation spam with location (actually works) - NEW
-* Add recipe points to level 50 players - HOT!
-* Export excel list of all players, guilds, levels, steamids - NOW INCLUDES ACTIVITY DATE
+* Add recipe points to level 50 players - HOT! (Updated to be simpler. Please run if you have run previously for performance.) - UPDATE
+* Script to remove Bog Decay Tool V1 due to the game putting in its own timestamp. Bog Decay Tool V2 replaces the original decay tool without the need for an extra column or trigger, but the removal of the column and the trigger to update it is necessary for performance. - UPDATE
+* Bog Decay Tool V2 - can be run without any column or trigger additions due to the addition of a timestamp by the game devs! Fully customizable. - NEW
+* Easy mode script to find id - NEW
+* Wipe tool to remove all buildings and items, but leave players and guilds in place. - NEW
+* Find the number of buildings that each owner has (each building can have x amount of peices attached) - NEW
+* Find buildings past the maximum directional values of the green wall.
+* Merge clans together (cannot merge thralls)
+* Find all single or double foundation spam with location (actually works)
+* Export excel list of all players, guilds, levels, steamids, last time online
 * Delete no ownership objects
 * Delete all buildings, placeables, items, players and guilds for defined ids
 * Fix for players stuck out of bounds in the Upside Down
