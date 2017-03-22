@@ -136,7 +136,7 @@ delete from character_stats where char_id in (select id from characters where ch
 delete from characters where id in (select id from characters where char_name <> 'CHARACTERNAME');
 delete from guilds where guildid in (select guildid from guilds where name <> 'GUILDNAME');
 
---NOT TESTED IN PROD YET:
+--TESTED IN PROD AS WORKING ON 3/22
 --REMOVES ALL ITEMS AND BUILDINGS, LEAVING ONLY CHARACTERS, GUILDS, LEVELS, RECIPES (WIPE OF ALL BUT CHARACTER DATA)
 delete from buildable_health;
 delete from building_instances;
