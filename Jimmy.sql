@@ -1,4 +1,4 @@
-.open game_backup_1.db
+.open game.db
 delete from buildable_health where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
 delete from building_instances where object_id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
 delete from actor_position where id in (select distinct object_id from buildings where object_id in (select distinct object_id from properties where name like '%Bedroll%' or name like '%CampFire%'));
@@ -87,3 +87,6 @@ select quote(g.name) as GUILD, quote(g.guildid) as GUILDid, quote(c.char_name) a
 .mode csv
 .once soloplayers.csv
 select quote(char_name) as NAME, level as LEVEL, quote(playerID) as STEAMid, quote(id) as DBid, datetime(lastTimeOnline, 'unixepoch') as LASTONLINE from characters where id not in (select distinct c.id from guilds g inner join characters c on g.guildid = c.guild order by g.name, c.rank desc, c.level desc, c.char_name) order by char_name, level;
+.quit
+
+
