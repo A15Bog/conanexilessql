@@ -149,4 +149,4 @@ delete from properties where object_id in (select distinct object_id from proper
 delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
 delete from account where user not in (select playerid from characters);
-
+update actor_position set x='59939.539063', y='310979.625', z='-21411.023438'
