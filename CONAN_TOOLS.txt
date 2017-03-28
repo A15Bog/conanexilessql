@@ -95,7 +95,7 @@ delete from item_properties where owner_id in (select id from characters where p
 delete from item_inventory where owner_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515')) or owner_id = '8584';
 delete from actor_position where id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515')) or id = '8584';
 delete from character_stats where char_id in (select id from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515'));
-delete from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515');
+delete from characters where playerid in ('76561198007754084','76561198338700832','76561198237151710','76561198311432927','76561198355649515') or guild = '8584';
 delete from guilds where guildid = '8584';
 
 --EXPORT CSV OF ALL PLAYERS, GUILDS, LEADERS, CHARACTERS, LEVEL, RANK, LOCATION, LAST TIME ONLINE DATE
