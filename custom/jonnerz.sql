@@ -29,7 +29,7 @@ delete from item_properties where owner_id in (select distinct owner_id from bui
 delete from properties where object_id in (select distinct object_id from properties where name like '%Player%') and object_id not in (select id from characters) and object_id not in (select guildid from guilds);
 delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
-update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0' or z < '-99999.0' OR id = '1894' OR id = '1885';
+update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' where x = '1.0' or x = '0.0' or z < '-99999.0';
 VACUUM;
 REINDEX;
 ANALYZE;
