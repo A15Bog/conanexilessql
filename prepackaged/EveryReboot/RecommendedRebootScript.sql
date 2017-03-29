@@ -70,6 +70,7 @@ update actor_position set x='59939.539063', y='310979.625', z='-21411.023438' wh
 VACUUM;
 REINDEX;
 ANALYZE;
+pragma integrity_check;
 --REPORTS
 --GET LIST OF HOW MANY BUILDINGS EACH OWNER HAS
 .headers on
