@@ -6,10 +6,6 @@ US PVP. No exploits, 1x raid on a target per day, 1 person stack limit, no racis
 172.96.164.194:24013 (Ingame)
 Or search for A15 in the server browser under internet filter
 
-
-
-PREFACE: RecommendedRebootFile.bat contains all the same scripts that are listed here, except for the reports.
-
 DESCRIPTION: This is my reccomended reboot script. I add in the campfire and bedroll delete once a week,
 and I use the delete from guild or player script to remove characters, guilds and items following a ban.
 I also have the trigger to add 200 recipe points when you hit level 50.
