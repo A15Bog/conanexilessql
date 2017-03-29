@@ -5,6 +5,6 @@
 @echo off
 for %%a in (game*.db) do (
 echo "%%a"
-sqlite3 %%a < RecommendedRebootScript.sql
+sqlite3 %%a < EveryReboot.sql
 )
 pause
