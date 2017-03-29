@@ -21,17 +21,8 @@ THIS SCRIPT CONTAINS:
 	b. Single and Double foundation spam
 	c. Characters build past the extents of the green boundary wall
 	d. List of all players, guild, rank, level, last time online, and location
-	
-
-INSTRUCTIONS:
-1. Download game.db from the conansandbox\saved folder (or game_backup_1.db if testing) into a local directory
-2. Download sqlite3.exe from the conansandbox\saved folder into the same local directory as game.db or game_backup_1.db
-3. Open sqlite3.exe
-4. Copy and paste this entire window (You can paste into sqlite3.exe with the menu in the top left --> edit --> copy).
-Notes: If you are using game_backup_1.db as a test, you'll need to edit the .open game.db to .open game_backup_1.db on the line below.
 */
 
-.open game.db
 --7 DAY DECAY (V2.1)
 update characters set lastTimeOnline = strftime('%s', 'now') where lastTimeOnline is NULL;
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and owner_id not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null)));
