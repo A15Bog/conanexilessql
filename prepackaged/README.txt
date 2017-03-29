@@ -6,6 +6,8 @@ Download both files from any directory here to a local directory that contains y
 Backup a good copy of your game.db to a different directory.
 Run the .bat file to execute the commands.
 
+The EVERYREBOOT script contains the ReportsOnly, FixStuckPlayers, and RemoveNoOwnership, 7 Day Decay combined together.
+
 Notes: The batch file will execute against any game*.db file in the directory you run it against.
 Meaning if you have a game_backup_1.db file, they will also run against that.
 Make sure you put your backup in a seraprate directory so the scripts dont run against it.
