@@ -11,3 +11,7 @@ WHERE stat_value >= '354.0'
 AND stat_type = '0'
 AND stat_id = '3';
 END;
+VACUUM;
+REINDEX;
+ANALYZE;
+pragma integrity_check;
