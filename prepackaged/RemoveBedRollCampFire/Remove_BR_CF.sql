@@ -9,3 +9,4 @@ VACUUM;
 REINDEX;
 ANALYZE;
 pragma integrity_check;
+.quit
