@@ -2,6 +2,6 @@
 @echo off
 for %%a in (game*.db) do (
 echo "%%a"
-sqlite3 %%a < RemoveNoOnwership.sql
+sqlite3 %%a < RemoveNoOwnership.sql
 )
 pause
