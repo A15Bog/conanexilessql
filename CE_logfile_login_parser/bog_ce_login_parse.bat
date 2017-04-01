@@ -1,1 +1,0 @@
-findstr /s "userId" *.log >> logins.txt
