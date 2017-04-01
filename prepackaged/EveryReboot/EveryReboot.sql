@@ -22,7 +22,6 @@ THIS SCRIPT CONTAINS:
 	c. Characters build past the extents of the green boundary wall
 	d. List of all players, guild, rank, level, last time online, and location
 */
-/*
 --7 DAY DECAY (V2.1)
 update characters set lastTimeOnline = strftime('%s', 'now') where lastTimeOnline is NULL;
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and owner_id not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null)));
@@ -35,9 +34,9 @@ delete from actor_position where id in (select distinct object_id from buildings
 delete from actor_position where id in (select distinct object_id from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null)));
 delete from buildings where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and guild is null);
 delete from buildings where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
-delete from item_properties where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and owner_id not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
+delete from item_properties where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and owner_id not in (select id from characters where guild in (select guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null)));
 delete from item_properties where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
-delete from item_inventory where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and owner_id not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
+delete from item_inventory where owner_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and id not in (select id from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
 delete from item_inventory where owner_id in (select guildid from guilds where guildid not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
 delete from actor_position where id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and id not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
 delete from actor_position where id in (select guildid from guilds where guildid not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
@@ -46,7 +45,6 @@ delete from character_stats where char_id in (select id from characters where la
 delete from character_stats where char_id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and guild not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
 delete from characters where id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and guild is null);
 delete from characters where id in (select id from characters where lastTimeOnline < strftime('%s', 'now', '-7 days') and guild not in (select distinct guild from characters where lastTimeOnline > strftime('%s', 'now', '-7 days') and guild is not null));
-*/
 --REMOVE NO OWNERSHIP
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
