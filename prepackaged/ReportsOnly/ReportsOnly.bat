@@ -2,6 +2,6 @@
 @echo off
 for %%a in (game*.db) do (
 echo "%%a"
-sqlite3 %%a < Remove_BR_CF.sql
+sqlite3 %%a < ReportsOnly.sql
 )
 pause
