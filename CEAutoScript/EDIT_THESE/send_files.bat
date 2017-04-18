@@ -1,0 +1,1 @@
+ncftpput -u FTPusername -p FTPpassword -P FTPport -DD FTPserveraddress /ConanSandbox/Saved/ C:\CEAutoScript\bin\game.db
