@@ -1,0 +1,13 @@
+--DELETE PLAYERS AND/OR GUILDS ALONG WITH EVERYTHING THEY OWN ON THE SERVER
+delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419'))) or object_id in (select distinct object_id from buildings where owner_id = '12685');
+delete from building_instances where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419'))) or object_id in (select distinct object_id from buildings where owner_id = '12685');
+delete from properties where object_id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419'))) or object_id in (select distinct object_id from buildings where owner_id = '12685');
+delete from actor_position where id in (select distinct object_id from buildings where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419'))) or id in (select distinct object_id from buildings where owner_id = '12685');
+delete from properties where object_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419')) or object_id = '12685';
+delete from buildings where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419')) or owner_id = '12685';
+delete from item_properties where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419')) or owner_id = '12685';
+delete from item_inventory where owner_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419')) or owner_id = '12685';
+delete from actor_position where id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419')) or id = '12685';
+delete from character_stats where char_id in (select id from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419'));
+delete from characters where playerid in ('76561198325466917','76561198193212354','76561198193182213','76561198347433419') or guild = '12685';
+delete from guilds where guildid = '12685';
