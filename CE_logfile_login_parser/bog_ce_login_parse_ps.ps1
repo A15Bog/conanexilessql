@@ -1,4 +1,4 @@
-﻿#Created by A15 Bog to parse logins for finding exploiters
+#Created by A15 Bog to parse logins for finding exploiters
 #https://github.com/A15Bog/conanexilessql
 function Get-ScriptDirectory
 { 
