@@ -48,6 +48,8 @@ select ap.id, c.char_name, c.playerid, c.id, g.name, g.guildid, 'TeleportPlayer 
 .once double_foundation_spam.csv
 select ap.id, c.char_name, c.playerid, c.id, g.name, g.guildid, 'TeleportPlayer ' || ap.x || ' ' || ap.y || ' ' || ap.z from actor_position as ap inner join buildings as b on ap.id = b.object_id left outer join characters as c on c.id = b.owner_id left outer join guilds as g on g.guildid = b.owner_id inner join building_instances as bi on bi.object_id = b.object_id where bi.instance_id = '1' and bi.object_id not in (select object_id from building_instances where instance_id = '2') and ap.class like '%found%';
 
+
+/* Commenting out/removing ON 20170902 due to reports of this resetting some player levels and stats after use, and potentially causing crashes the comment out line below was removed on 20170825 for issues with it having an effect on chests and their contents
 --DELETE OBJECTS FROM PLAYERS OR GUILDS WHO LONGER EXIST
 delete from buildable_health where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from building_instances where object_id in (select distinct object_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
@@ -57,6 +59,7 @@ delete from item_properties where owner_id in (select distinct owner_id from bui
 --delete from properties where object_id in (select distinct object_id from properties where name like '%Player%') and object_id not in (select id from characters) and object_id not in (select guildid from guilds);
 delete from item_inventory where owner_id in (select distinct owner_id from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds));
 delete from buildings where owner_id not in (select id from characters) and owner_id not in (select guildid from guilds);
+*/
 
 --ADDS ENOUGH POINTS FOR ALL ITEMS TO BE LEARNED ONCE YOU HIT LEVEL 60
 update character_stats set stat_value = '1200.0' where stat_value >= '497.0' and stat_type = '0' and stat_id = '3';
